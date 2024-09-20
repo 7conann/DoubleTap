@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let { data, error } = await supabase
                 .from(TABLE_NAME)
                 .select('*');
-
+                console.log('Dados do Supabase:', data);
             if (error) {
                 console.error('Erro ao consultar o Supabase:', error);
             } else if (data.length === 0) {
