@@ -22,6 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
     fetchData();
+      // Função para receber mensagens do site principal
+      window.addEventListener('message', (event) => {
+        if (event.data.type === 'USER_INFO') {
+            const user = event.data.user;
+            fetchData();
+            // Definir o usuário atual
+            currentUser = user;
+
+            // Atualizar a interface do iframe com os dados do usuário
+            document.getElementById('currentUserName').textContent = abreviarNome(user.name, 20, 6);
+            document.getElementById('currentUserEmail').textContent = user.email;
+
+            // Buscar dados do Supabase após definir o usuário atual
+        } else {
+           
+        }
+    });
 });
 let businessTerms = [
     { term: "Empreendedorismo", explanation: "Ato de criar e gerenciar novos negócios visando lucro e inovação." },
