@@ -5,41 +5,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1bmJ1cnhpcXR6ZnRwcHF2eHRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU1Njc3MzEsImV4cCI6MjA0MTE0MzczMX0.y-EgwTJ-uEzbLa_bTSzbEN10dSyTVrSJ27zrl51MLKc'; // Substitua pela sua chave de API do Supabase
     const TABLE_NAME = 'atm-dadosMentorBeta';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Verifica se a biblioteca do Supabase está carregada
+    if (window.supabase) {
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Função para buscar dados do Supabase e atualizar o ranking
-    async function fetchData() {
-        let { data, error } = await supabase
-            .from(TABLE_NAME)
-            .select('*');
+        // Função para buscar dados do Supabase e atualizar o ranking
+        async function fetchData() {
+            let { data, error } = await supabase
+                .from(TABLE_NAME)
+                .select('*');
 
-
-        if (error) {
-            console.error('Erro ao consultar o Supabase:', error);
-        } else if (data.length === 0) {
-            console.warn('Nenhum dado encontrado na tabela workez.');
+            if (error) {
+                console.error('Erro ao consultar o Supabase:', error);
+            } else if (data.length === 0) {
+                console.warn('Nenhum dado encontrado na tabela workez.');
+            }
         }
+        fetchData();
 
+        // Função para receber mensagens do site principal
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'USER_INFO') {
+                const user = event.data.user;
+                fetchData();
+                // Definir o usuário atual
+                currentUser = user;
+
+                // Atualizar a interface do iframe com os dados do usuário
+                document.getElementById('currentUserName').textContent = abreviarNome(user.name, 20, 6);
+                document.getElementById('currentUserEmail').textContent = user.email;
+
+                // Buscar dados do Supabase após definir o usuário atual
+            }
+        });
+    } else {
+        console.error('A biblioteca do Supabase não está carregada.');
     }
-    fetchData();
-      // Função para receber mensagens do site principal
-      window.addEventListener('message', (event) => {
-        if (event.data.type === 'USER_INFO') {
-            const user = event.data.user;
-            fetchData();
-            // Definir o usuário atual
-            currentUser = user;
-
-            // Atualizar a interface do iframe com os dados do usuário
-            document.getElementById('currentUserName').textContent = abreviarNome(user.name, 20, 6);
-            document.getElementById('currentUserEmail').textContent = user.email;
-
-            // Buscar dados do Supabase após definir o usuário atual
-        } else {
-           
-        }
-    });
 });
+
 let businessTerms = [
     { term: "Empreendedorismo", explanation: "Ato de criar e gerenciar novos negócios visando lucro e inovação." },
     { term: "Marketing Digital", explanation: "Estratégias de promoção online para alcançar o público-alvo." },
