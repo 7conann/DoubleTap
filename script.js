@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     }
+    fetchData();
 });
 let businessTerms = [
     { term: "Empreendedorismo", explanation: "Ato de criar e gerenciar novos negócios visando lucro e inovação." },
