@@ -190,7 +190,7 @@ function startTimer() {
 
             // Envia os dados de pontuação para a URL especificada
             if (currentUser) {
-                fetch('https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6', {
+                fetch('https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
