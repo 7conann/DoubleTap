@@ -1,4 +1,5 @@
 let currentUser = null; // Variável global para armazenar os dados do usuário atual
+let supabaseData = null; // Variável global para armazenar os dados do Supabase
 
 document.addEventListener('DOMContentLoaded', () => {
     const SUPABASE_URL = 'https://eunburxiqtzftppqvxtr.supabase.co'; // Substitua pela sua URL do Supabase
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (data.length === 0) {
                 console.warn('Nenhum dado encontrado na tabela workez.');
             }
+            supabaseData = data; // Armazena os dados do Supabase
         }
         fetchData();
 
@@ -27,13 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('message', (event) => {
             if (event.data.type === 'USER_INFO') {
                 const user = event.data.user;
-                fetchData();
                 // Definir o usuário atual
                 currentUser = user;
                 console.log('Usuário atual:', currentUser);
-
             }
- });
+        });
     } else {
         console.error('A biblioteca do Supabase não está carregada.');
     }
@@ -191,36 +191,27 @@ function startTimer() {
 
             // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
-                supabase
-                    .from(TABLE_NAME)
-                    .select('id')
-                    .eq('id', currentUser.id)
-                    .then(({ data, error }) => {
-                        if (error) {
-                            console.error('Erro ao consultar o Supabase:', error);
-                            return;
-                        }
+                const userExists = supabaseData.some(user => user.id === currentUser.id);
 
-                        const url = data.length > 0
-                            ? 'https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6'
-                            : 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
+                const url = userExists
+                    ? 'https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6'
+                    : 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
 
-                        // Envia os dados de pontuação para a URL apropriada
-                        fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                name: currentUser.name,
-                                id: currentUser.id,
-                                score: score
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => console.log('Sucesso:', data))
-                        .catch((error) => console.error('Erro:', error));
-                    });
+                // Envia os dados de pontuação para a URL apropriada
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: currentUser.name,
+                        id: currentUser.id,
+                        score: score
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Sucesso:', data))
+                .catch((error) => console.error('Erro:', error));
             } else {
                 console.error('Usuário atual não está definido.');
             }
