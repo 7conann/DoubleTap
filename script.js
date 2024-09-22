@@ -189,16 +189,24 @@ function startTimer() {
             alert(`Tempo esgotado! Sua pontuação final foi: ${score}`);
 
             // Envia os dados de pontuação para a URL especificada
-            fetch('https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ score: score })
-            })
+            if (currentUser) {
+                fetch('https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: currentUser.name,
+                        id: currentUser.id,
+                        score: score
+                    })
+                })
                 .then(response => response.json())
                 .then(data => console.log('Sucesso:', data))
                 .catch((error) => console.error('Erro:', error));
+            } else {
+                console.error('Usuário atual não está definido.');
+            }
         }
     }, 1000);
 }
