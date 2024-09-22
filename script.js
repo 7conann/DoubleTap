@@ -3,7 +3,7 @@ let currentUser = null; // Variável global para armazenar os dados do usuário 
 document.addEventListener('DOMContentLoaded', () => {
     const SUPABASE_URL = 'https://eunburxiqtzftppqvxtr.supabase.co'; // Substitua pela sua URL do Supabase
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1bmJ1cnhpcXR6ZnRwcHF2eHRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU1Njc3MzEsImV4cCI6MjA0MTE0MzczMX0.y-EgwTJ-uEzbLa_bTSzbEN10dSyTVrSJ27zrl51MLKc'; // Substitua pela sua chave de API do Supabase
-    const TABLE_NAME = 'atm-dadosDoubleTap';
+    const TABLE_NAME = 'atm-dadosMentorBeta';
 
     // Verifica se a biblioteca do Supabase está carregada
     if (window.supabase) {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Usuário atual:', currentUser);
 
             }
-        });
+ });
     } else {
         console.error('A biblioteca do Supabase não está carregada.');
     }
@@ -81,7 +81,7 @@ let businessTerms = [
 ];
 
 let score = 0;
-let timeLeft = 10; // 1 minuto
+let timeLeft = 60; // 1 minuto
 let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
@@ -164,7 +164,8 @@ function addClickEvents() {
             } else if (selectedTerm) {
                 // Correspondência incorreta
                 selectedTerm.classList.add("wrong");
-                this.classList.add("wrong");
+                this.classList.add("wrong")
+                console.log(this.classList);
 
                 // Reseta a seleção incorreta após um tempo
                 setTimeout(() => {
@@ -188,22 +189,38 @@ function startTimer() {
             clearInterval(timerInterval);
             alert(`Tempo esgotado! Sua pontuação final foi: ${score}`);
 
-            // Envia os dados de pontuação para a URL especificada
+            // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
-                fetch('https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: currentUser.name,
-                        id: currentUser.id,
-                        score: score
-                    })
-                })
-                .then(response => response.json())
-                .then(data => console.log('Sucesso:', data))
-                .catch((error) => console.error('Erro:', error));
+                supabase
+                    .from(TABLE_NAME)
+                    .select('id')
+                    .eq('id', currentUser.id)
+                    .then(({ data, error }) => {
+                        if (error) {
+                            console.error('Erro ao consultar o Supabase:', error);
+                            return;
+                        }
+
+                        const url = data.length > 0
+                            ? 'https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6'
+                            : 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
+
+                        // Envia os dados de pontuação para a URL apropriada
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name: currentUser.name,
+                                id: currentUser.id,
+                                score: score
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log('Sucesso:', data))
+                        .catch((error) => console.error('Erro:', error));
+                    });
             } else {
                 console.error('Usuário atual não está definido.');
             }
