@@ -192,10 +192,9 @@ function startTimer() {
             // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
-
                 const url = userExists
                     ? 'https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6'
-                    : 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
+                    : 'https://n8n.workez.online/webhook-test/90663608-b1d7-48b6-bdbd-3892ff7b3788';
 
                 // Envia os dados de pontuação para a URL apropriada
                 fetch(url, {
