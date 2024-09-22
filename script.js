@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let { data, error } = await supabase
                 .from(TABLE_NAME)
                 .select('*');
-                console.log('Dados do Supabase:', data);
+            console.log('Dados do Supabase:', data);
             if (error) {
                 console.error('Erro ao consultar o Supabase:', error);
             } else if (data.length === 0) {
@@ -187,6 +187,18 @@ function startTimer() {
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             alert(`Tempo esgotado! Sua pontuação final foi: ${score}`);
+
+            // Envia os dados de pontuação para a URL especificada
+            fetch('https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ score: score })
+            })
+                .then(response => response.json())
+                .then(data => console.log('Sucesso:', data))
+                .catch((error) => console.error('Erro:', error));
         }
     }, 1000);
 }
