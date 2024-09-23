@@ -89,33 +89,40 @@ function loadWords() {
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
     console.log('Perguntas filtradas:', filteredPerguntas);
     if (filteredPerguntas.length > 0) {
-        const perguntas = JSON.parse(filteredPerguntas[0].perguntas);
-        shuffleArray(perguntas);
-        const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
+        const perguntasString = filteredPerguntas[0].perguntas;
+        console.log('String de perguntas:', perguntasString); // Log da string JSON
 
-        // Coloca os termos e explicações embaralhados na tela
-        const terms = currentPairs.map(pair => pair.term);
-        const explanations = currentPairs.map(pair => pair.explanation);
-        shuffleArray(terms);
-        shuffleArray(explanations);
+        try {
+            const perguntas = JSON.parse(`[${perguntasString}]`); // Corrige a string JSON
+            shuffleArray(perguntas);
+            const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
 
-        terms.forEach((term, index) => {
-            const termButton = document.createElement("button");
-            termButton.textContent = term;
-            termButton.dataset.index = currentPairs.findIndex(pair => pair.term === term);
-            termButton.classList.add("term-button");
-            businessColumn.appendChild(termButton);
-        });
+            // Coloca os termos e explicações embaralhados na tela
+            const terms = currentPairs.map(pair => pair.term);
+            const explanations = currentPairs.map(pair => pair.explanation);
+            shuffleArray(terms);
+            shuffleArray(explanations);
 
-        explanations.forEach((explanation, index) => {
-            const explanationButton = document.createElement("button");
-            explanationButton.textContent = explanation;
-            explanationButton.dataset.index = currentPairs.findIndex(pair => pair.explanation === explanation);
-            explanationButton.classList.add("explanation-button");
-            explanationColumn.appendChild(explanationButton);
-        });
+            terms.forEach((term, index) => {
+                const termButton = document.createElement("button");
+                termButton.textContent = term;
+                termButton.dataset.index = currentPairs.findIndex(pair => pair.term === term);
+                termButton.classList.add("term-button");
+                businessColumn.appendChild(termButton);
+            });
 
-        addClickEvents();
+            explanations.forEach((explanation, index) => {
+                const explanationButton = document.createElement("button");
+                explanationButton.textContent = explanation;
+                explanationButton.dataset.index = currentPairs.findIndex(pair => pair.explanation === explanation);
+                explanationButton.classList.add("explanation-button");
+                explanationColumn.appendChild(explanationButton);
+            });
+
+            addClickEvents();
+        } catch (error) {
+            console.error('Erro ao analisar a string JSON de perguntas:', error);
+        }
     } else {
         console.warn('Nenhuma pergunta encontrada para o módulo do usuário.');
     }
@@ -233,7 +240,7 @@ function startTimer() {
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
                 const userData = supabaseData.find(user => user.id === currentUser.id);
-                
+
                 if (userExists && userData.ranking.score < score) {
                     // Atualiza o score se o novo score for maior
                     const url = 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
@@ -248,16 +255,16 @@ function startTimer() {
                             score: score
                         })
                     })
-                    .then(response => response.json())
-                    .then(async data => {
-                        console.log('Sucesso:', data);
-                        // Aguarda 2 segundos antes de buscar os dados novamente
-                        await new Promise(resolve => setTimeout(resolve, 2000));
-                        await fetchData(); // Atualiza os dados do Supabase
-                        // Exibe o ranking após enviar os dados
-                        displayRanking();
-                    })
-                    .catch((error) => console.error('Erro:', error));
+                        .then(response => response.json())
+                        .then(async data => {
+                            console.log('Sucesso:', data);
+                            // Aguarda 2 segundos antes de buscar os dados novamente
+                            await new Promise(resolve => setTimeout(resolve, 2000));
+                            await fetchData(); // Atualiza os dados do Supabase
+                            // Exibe o ranking após enviar os dados
+                            displayRanking();
+                        })
+                        .catch((error) => console.error('Erro:', error));
                 } else if (!userExists) {
                     // Cria um novo registro se o usuário não existir
                     const url = 'https://webhook.workez.online/webhook/90663608-b1d7-48b6-bdbd-3892ff7b3788';
@@ -272,16 +279,16 @@ function startTimer() {
                             score: score
                         })
                     })
-                    .then(response => response.json())
-                    .then(async data => {
-                        console.log('Sucesso:', data);
-                        // Aguarda 2 segundos antes de buscar os dados novamente
-                        await new Promise(resolve => setTimeout(resolve, 2000));
-                        await fetchData(); // Atualiza os dados do Supabase
-                        // Exibe o ranking após enviar os dados
-                        displayRanking();
-                    })
-                    .catch((error) => console.error('Erro:', error));
+                        .then(response => response.json())
+                        .then(async data => {
+                            console.log('Sucesso:', data);
+                            // Aguarda 2 segundos antes de buscar os dados novamente
+                            await new Promise(resolve => setTimeout(resolve, 2000));
+                            await fetchData(); // Atualiza os dados do Supabase
+                            // Exibe o ranking após enviar os dados
+                            displayRanking();
+                        })
+                        .catch((error) => console.error('Erro:', error));
                 } else {
                     // Exibe o ranking sem atualizar o score
                     displayRanking();
@@ -296,4 +303,5 @@ function startTimer() {
 }
 
 // Inicia o jogo e o cronômetro
+fetchData(); // Certifique-se de que os dados sejam carregados antes de iniciar o cronômetro
 startTimer();
