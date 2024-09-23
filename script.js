@@ -214,7 +214,6 @@ async function displayRanking() {
                 <span>#${index + 1}</span>
                 <p>${user.ranking.name}</p>
                 <p class="seg">${user.ranking.score} pontos</p>
-                <p class="seg">${user.ranking.time} segundos</p>
             `;
             rankingContainer.appendChild(userElement);
         });
