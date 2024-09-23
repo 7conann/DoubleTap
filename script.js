@@ -212,16 +212,20 @@ async function displayRanking() {
 
         // Atualiza os dados do usuário atual
         const currentUserElement = document.querySelector('.current-user');
-        const currentUserData = sortedData.find(user => user.id === currentUser.id);
-        if (currentUserData) {
-            currentUserElement.innerHTML = `
-                <span id="currentUserPosition">#${sortedData.indexOf(currentUserData) + 1}</span>
-                <p id="currentUserName">${currentUserData.ranking.name}</p>
-                <p class="seg" id="currentUserScore">${currentUserData.ranking.score} pontos</p>
-                <p class="seg" id="currentUserTiming">${currentUserData.ranking.time} segundos</p>
-            `;
+        if (currentUserElement) {
+            const currentUserData = sortedData.find(user => user.id === currentUser.id);
+            if (currentUserData) {
+                currentUserElement.innerHTML = `
+                    <span id="currentUserPosition">#${sortedData.indexOf(currentUserData) + 1}</span>
+                    <p id="currentUserName">${currentUserData.ranking.name}</p>
+                    <p class="seg" id="currentUserScore">${currentUserData.ranking.score} pontos</p>
+                    <p class="seg" id="currentUserTiming">${currentUserData.ranking.time} segundos</p>
+                `;
+            } else {
+                currentUserElement.style.display = 'none';
+            }
         } else {
-            currentUserElement.style.display = 'none';
+            console.error('Elemento current-user não encontrado.');
         }
     } else {
         console.error('Dados do Supabase não estão disponíveis.');
