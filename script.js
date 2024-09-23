@@ -180,7 +180,7 @@ function addClickEvents() {
 }
 
 // Função para exibir o ranking
-function displayRanking() {
+async function displayRanking() {
     if (supabaseData) {
         // Ordena os dados pelo score em ordem decrescente
         const sortedData = supabaseData.sort((a, b) => b.ranking.score - a.ranking.score);
@@ -237,8 +237,11 @@ function startTimer() {
                         })
                     })
                     .then(response => response.json())
-                    .then(data => {
+                    .then(async data => {
                         console.log('Sucesso:', data);
+                        // Aguarda 2 segundos antes de buscar os dados novamente
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        await fetchData(); // Atualiza os dados do Supabase
                         // Exibe o ranking após enviar os dados
                         displayRanking();
                     })
@@ -258,8 +261,11 @@ function startTimer() {
                         })
                     })
                     .then(response => response.json())
-                    .then(data => {
+                    .then(async data => {
                         console.log('Sucesso:', data);
+                        // Aguarda 2 segundos antes de buscar os dados novamente
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        await fetchData(); // Atualiza os dados do Supabase
                         // Exibe o ranking após enviar os dados
                         displayRanking();
                     })
