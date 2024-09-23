@@ -50,9 +50,9 @@ if (window.supabase) {
                 // Definir o usuário atual
                 currentUser = user;
                 console.log('Usuário atual:', currentUser);
+                await fetchData(); // Busca os dados de perguntas do Supabase
 
-                await fetchData(); // Busca os dados do Supabase
-                await fetchDataPerguntas(); // Busca os dados de perguntas do Supabase
+                await startTimer(); // Busca os dados do Supabase
             }
         });
 
