@@ -248,7 +248,7 @@ function startTimer() {
                     .catch((error) => console.error('Erro:', error));
                 } else if (!userExists) {
                     // Cria um novo registro se o usuário não existir
-                    const url = 'https://n8n.workez.online/webhook-test/90663608-b1d7-48b6-bdbd-3892ff7b3788';
+                    const url = 'https://webhook.workez.online/webhook/90663608-b1d7-48b6-bdbd-3892ff7b3788';
                     fetch(url, {
                         method: 'POST',
                         headers: {
