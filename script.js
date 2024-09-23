@@ -52,8 +52,7 @@ if (window.supabase) {
                 console.log('Usuário atual:', currentUser);
             }
         });
-        fetchData();
-        startTimer();
+     
     });
 } else {
     console.error('A biblioteca do Supabase não está carregada.');
