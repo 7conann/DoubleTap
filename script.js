@@ -89,40 +89,33 @@ function loadWords() {
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
     console.log('Perguntas filtradas:', filteredPerguntas);
     if (filteredPerguntas.length > 0) {
-        const perguntasString = filteredPerguntas[0].perguntas;
-        console.log('String de perguntas:', perguntasString); // Log da string JSON
+        const perguntas = JSON.parse(filteredPerguntas[0].perguntas);
+        shuffleArray(perguntas);
+        const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
 
-        try {
-            const perguntas = JSON.parse(perguntasString);
-            shuffleArray(perguntas);
-            const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
+        // Coloca os termos e explicações embaralhados na tela
+        const terms = currentPairs.map(pair => pair.term);
+        const explanations = currentPairs.map(pair => pair.explanation);
+        shuffleArray(terms);
+        shuffleArray(explanations);
 
-            // Coloca os termos e explicações embaralhados na tela
-            const terms = currentPairs.map(pair => pair.term);
-            const explanations = currentPairs.map(pair => pair.explanation);
-            shuffleArray(terms);
-            shuffleArray(explanations);
+        terms.forEach((term, index) => {
+            const termButton = document.createElement("button");
+            termButton.textContent = term;
+            termButton.dataset.index = currentPairs.findIndex(pair => pair.term === term);
+            termButton.classList.add("term-button");
+            businessColumn.appendChild(termButton);
+        });
 
-            terms.forEach((term, index) => {
-                const termButton = document.createElement("button");
-                termButton.textContent = term;
-                termButton.dataset.index = currentPairs.findIndex(pair => pair.term === term);
-                termButton.classList.add("term-button");
-                businessColumn.appendChild(termButton);
-            });
+        explanations.forEach((explanation, index) => {
+            const explanationButton = document.createElement("button");
+            explanationButton.textContent = explanation;
+            explanationButton.dataset.index = currentPairs.findIndex(pair => pair.explanation === explanation);
+            explanationButton.classList.add("explanation-button");
+            explanationColumn.appendChild(explanationButton);
+        });
 
-            explanations.forEach((explanation, index) => {
-                const explanationButton = document.createElement("button");
-                explanationButton.textContent = explanation;
-                explanationButton.dataset.index = currentPairs.findIndex(pair => pair.explanation === explanation);
-                explanationButton.classList.add("explanation-button");
-                explanationColumn.appendChild(explanationButton);
-            });
-
-            addClickEvents();
-        } catch (error) {
-            console.error('Erro ao analisar a string JSON de perguntas:', error);
-        }
+        addClickEvents();
     } else {
         console.warn('Nenhuma pergunta encontrada para o módulo do usuário.');
     }
