@@ -104,7 +104,8 @@ function loadWords() {
 
         try {
             // Corrige a string JSON para garantir que seja um array de objetos
-            const perguntas = JSON.parse(`[${perguntasString.replace(/}\s*,\s*{/g, '},{')}]`);
+            const formattedString = `[${perguntasString.replace(/}\s*,\s*{/g, '},{')}]`;
+            const perguntas = JSON.parse(formattedString);
             shuffleArray(perguntas);
             const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
 
