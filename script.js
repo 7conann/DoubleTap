@@ -204,6 +204,10 @@ async function displayRanking() {
             userElement.textContent = `${user.name}: ${user.ranking.score}`;
             rankingContainer.appendChild(userElement);
         });
+
+        // Exibe a seção de ranking
+        document.getElementById('rankingSection').style.display = 'block';
+        console.log('Ranking atualizado no HTML.');
     } else {
         console.warn('supabaseData está vazio ou indefinido.');
     }
