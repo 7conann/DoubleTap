@@ -81,7 +81,7 @@ let businessTerms = [
 ];
 
 let score = 0;
-let timeLeft = 5; // 1 minuto
+let timeLeft = 60; // 1 minuto
 let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
@@ -179,6 +179,32 @@ function addClickEvents() {
     });
 }
 
+// Função para exibir o ranking
+function displayRanking() {
+    if (supabaseData) {
+        // Ordena os dados pelo score em ordem decrescente
+        const sortedData = supabaseData.sort((a, b) => b.ranking.score - a.ranking.score);
+        // Pega os top 3
+        const top3 = sortedData.slice(0, 3);
+
+        // Cria a estrutura HTML para exibir o ranking
+        const rankingContainer = document.createElement('div');
+        rankingContainer.classList.add('ranking-container');
+        rankingContainer.innerHTML = '<h2>Top 3 Jogadores</h2>';
+
+        top3.forEach((user, index) => {
+            const userElement = document.createElement('div');
+            userElement.classList.add('ranking-item');
+            userElement.innerHTML = `<strong>${index + 1}. ${user.ranking.name}</strong> - ${user.ranking.score} pontos`;
+            rankingContainer.appendChild(userElement);
+        });
+
+        document.body.appendChild(rankingContainer);
+    } else {
+        console.error('Dados do Supabase não estão disponíveis.');
+    }
+}
+
 // Função para iniciar o cronômetro
 function startTimer() {
     const timerInterval = setInterval(() => {
@@ -209,7 +235,11 @@ function startTimer() {
                     })
                 })
                 .then(response => response.json())
-                .then(data => console.log('Sucesso:', data))
+                .then(data => {
+                    console.log('Sucesso:', data);
+                    // Exibe o ranking após enviar os dados
+                    displayRanking();
+                })
                 .catch((error) => console.error('Erro:', error));
             } else {
                 console.error('Usuário atual não está definido.');
