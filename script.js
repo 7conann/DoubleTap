@@ -42,7 +42,6 @@ async function fetchDataPerguntas() {
 // Verifica se a biblioteca do Supabase está carregada
 if (window.supabase) {
     document.addEventListener('DOMContentLoaded', () => {
-        fetchData();
 
         // Função para receber mensagens do site principal
         window.addEventListener('message', (event) => {
@@ -53,6 +52,8 @@ if (window.supabase) {
                 console.log('Usuário atual:', currentUser);
             }
         });
+        fetchData();
+
     });
 } else {
     console.error('A biblioteca do Supabase não está carregada.');
