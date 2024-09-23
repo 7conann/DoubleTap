@@ -87,3 +87,115 @@ button.wrong {
 button.correct-disappear {
     display: none; /* Remove o botão após desaparecer */
 }
+
+.ranking {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+}
+
+#rankingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rank-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+.rank-item span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    flex: 0 0 50px; /* Largura fixa para o número da posição */
+}
+
+.rank-item p {
+    margin: 0;
+    font-size: 0.9rem; /* Fonte menor */
+    font-weight: bold; /* Negrito */
+    flex: 1; /* Flexível para ocupar o espaço restante */
+}
+
+.rank-item .seg {
+    font-size: 0.8rem;
+    color: #ffffff;
+    text-align: end;/* Largura fixa para o tempo */
+}
+
+.rank-item.first {
+    background-color: #121212;
+    color: #FFD700; /* Ouro */
+    border: 1px solid #FFD700;
+}
+
+.rank-item.second {
+    background-color: #121212;
+    color: #C0C0C0; /* Prata */
+    border: 1px solid #C0C0C0;
+}
+
+.rank-item.third {
+    background-color: #121212;
+    color: #FF4500; /* Vermelho */
+    border: 1px solid #FF4500;
+}
+
+.rank-item.normal, .rank-item.current-user {
+    color: white;
+    border: 1px solid #444;
+}
+
+.rank-item.current-user {
+    margin-top: 10px;
+    background-color: #121212;
+}
+
+h4 {
+    text-align: center;
+    width: 130px;
+}
+
+@media (max-width: 768px) {
+    .ranking {
+        width: 80%;
+        padding: 15px;
+    }
+
+    .rank-item {
+        padding: 8px;
+    }
+
+    .rank-item span {
+        font-size: 1rem;
+    }
+ 
+}
+
+@media (max-width: 480px) {
+    .ranking {
+        width: 70%;
+        padding: 10px;
+    }
+
+    .rank-item {
+        padding: 5px;
+    }
+
+    .rank-item span {
+        font-size: 0.7rem;
+    }
+    .rank-item p {
+        font-size: 0.6rem;
+    }
+    .rank-item .seg{
+        font-size: 0.6rem;
+    }
+}
