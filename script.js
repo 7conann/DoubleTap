@@ -81,7 +81,7 @@ let businessTerms = [
 ];
 
 let score = 0;
-let timeLeft = 5; // 1 minuto
+let timeLeft = 60; // 1 minuto
 let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
@@ -199,6 +199,8 @@ function displayRanking() {
             rankingContainer.appendChild(userElement);
         });
 
+        // Esconde o conteúdo atual e exibe o ranking
+        document.querySelector('.container').style.display = 'none';
         document.body.appendChild(rankingContainer);
     } else {
         console.error('Dados do Supabase não estão disponíveis.');
@@ -219,8 +221,8 @@ function startTimer() {
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
                 const url = userExists
-                    ? 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6'
-                    : 'https://webhook.workez.online/webhook/90663608-b1d7-48b6-bdbd-3892ff7b3788';
+                    ? 'https://n8n.workez.online/webhook-test/939cda9f-fe23-4d1c-9c88-883f1be420e6'
+                    : 'https://n8n.workez.online/webhook-test/90663608-b1d7-48b6-bdbd-3892ff7b3788';
 
                 // Envia os dados de pontuação para a URL apropriada
                 fetch(url, {
