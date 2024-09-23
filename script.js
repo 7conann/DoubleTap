@@ -81,7 +81,7 @@ let businessTerms = [
 ];
 
 let score = 0;
-let timeLeft = 60; // 1 minuto
+let timeLeft = 10; // 1 minuto
 let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
