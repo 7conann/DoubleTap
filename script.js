@@ -86,6 +86,7 @@ function loadWords() {
 
     // Filtra as perguntas pelo módulo do usuário
     const userModule = currentUser ? currentUser.modulo : null;
+    console.log('Dados de perguntas:', perguntasData);
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
     console.log('Perguntas filtradas:', filteredPerguntas);
     if (filteredPerguntas.length > 0) {
