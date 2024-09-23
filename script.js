@@ -1,28 +1,29 @@
 let currentUser = null; // Variável global para armazenar os dados do usuário atual
 let supabaseData = null; // Variável global para armazenar os dados do Supabase
 
-document.addEventListener('DOMContentLoaded', () => {
-    const SUPABASE_URL = 'https://eunburxiqtzftppqvxtr.supabase.co'; // Substitua pela sua URL do Supabase
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1bmJ1cnhpcXR6ZnRwcHF2eHRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU1Njc3MzEsImV4cCI6MjA0MTE0MzczMX0.y-EgwTJ-uEzbLa_bTSzbEN10dSyTVrSJ27zrl51MLKc'; // Substitua pela sua chave de API do Supabase
-    const TABLE_NAME = 'atm-dadosDoubleTap';
+const SUPABASE_URL = 'https://eunburxiqtzftppqvxtr.supabase.co'; // Substitua pela sua URL do Supabase
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1bmJ1cnhpcXR6ZnRwcHF2eHRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU1Njc3MzEsImV4cCI6MjA0MTE0MzczMX0.y-EgwTJ-uEzbLa_bTSzbEN10dSyTVrSJ27zrl51MLKc'; // Substitua pela sua chave de API do Supabase
+const TABLE_NAME = 'atm-dadosDoubleTap';
 
-    // Verifica se a biblioteca do Supabase está carregada
-    if (window.supabase) {
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Verifica se a biblioteca do Supabase está carregada
+if (window.supabase) {
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Função para buscar dados do Supabase e atualizar o ranking
-        async function fetchData() {
-            let { data, error } = await supabase
-                .from(TABLE_NAME)
-                .select('*');
-            console.log('Dados do Supabase:', data);
-            if (error) {
-                console.error('Erro ao consultar o Supabase:', error);
-            } else if (data.length === 0) {
-                console.warn('Nenhum dado encontrado na tabela workez.');
-            }
-            supabaseData = data; // Armazena os dados do Supabase
+    // Função para buscar dados do Supabase e atualizar o ranking
+    async function fetchData() {
+        let { data, error } = await supabase
+            .from(TABLE_NAME)
+            .select('*');
+        console.log('Dados do Supabase:', data);
+        if (error) {
+            console.error('Erro ao consultar o Supabase:', error);
+        } else if (data.length === 0) {
+            console.warn('Nenhum dado encontrado na tabela workez.');
         }
+        supabaseData = data; // Armazena os dados do Supabase
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
         fetchData();
 
         // Função para receber mensagens do site principal
@@ -34,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Usuário atual:', currentUser);
             }
         });
-    } else {
-        console.error('A biblioteca do Supabase não está carregada.');
-    }
-});
+    });
+} else {
+    console.error('A biblioteca do Supabase não está carregada.');
+}
 
 let businessTerms = [
     { term: "Empreendedorismo", explanation: "Ato de criar e gerenciar novos negócios visando lucro e inovação." },
@@ -207,7 +208,6 @@ async function displayRanking() {
     }
 }
 
-// Função para iniciar o cronômetro
 function startTimer() {
     const timerInterval = setInterval(() => {
         timeLeft--;
