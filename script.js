@@ -13,7 +13,6 @@ async function fetchData() {
     let { data, error } = await supabase
         .from(TABLE_NAME)
         .select('*');
-    console.log('Dados do Supabase:', data);
     if (error) {
         console.error('Erro ao consultar o Supabase:', error);
     } else if (data.length === 0) {
@@ -30,7 +29,6 @@ async function fetchDataPerguntas() {
     let { data, error } = await supabase
         .from(TABLE_NAME_PERGUNTAS)
         .select('*');
-    console.log('Dados do Supabase Perguntas:', data);
     if (error) {
         console.error('Erro ao consultar o Supabase:', error);
     } else if (data.length === 0) {
@@ -49,7 +47,6 @@ if (window.supabase) {
                 const user = event.data.user;
                 // Definir o usuário atual
                 currentUser = user;
-                console.log('Usuário atual:', currentUser);
                 await fetchData(); // Busca os dados de perguntas do Supabase
 
                 await startTimer(); // Busca os dados do Supabase
@@ -100,13 +97,10 @@ function loadWords() {
         return;
     }
 
-    console.log('Dados de perguntas:', perguntasData);
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
-    console.log('Perguntas filtradas:', filteredPerguntas);
 
     if (filteredPerguntas.length > 0) {
         const perguntasString = filteredPerguntas[0].perguntas;
-        console.log('String de perguntas:', perguntasString); // Log da string JSON
 
         try {
             // Corrige a string JSON para garantir que seja um array de objetos
@@ -183,8 +177,7 @@ function addClickEvents() {
             } else if (selectedTerm) {
                 // Correspondência incorreta
                 selectedTerm.classList.add("wrong");
-                this.classList.add("wrong")
-                console.log(this.classList);
+                this.classList.add("wrong");
 
                 // Reseta a seleção incorreta após um tempo
                 setTimeout(() => {
@@ -201,15 +194,11 @@ function addClickEvents() {
 // Função para exibir o ranking
 async function displayRanking() {
     if (supabaseData) {
-        console.log('Dados do Supabase:', supabaseData); // Log dos dados do Supabase
-
         // Ordena os dados pelo score em ordem decrescente
         const sortedData = supabaseData.sort((a, b) => b.ranking.score - a.ranking.score);
-        console.log('Dados ordenados:', sortedData); // Log dos dados ordenados
 
         // Pega os top 3
         const top3 = sortedData.slice(0, 3);
-        console.log('Top 3:', top3); // Log dos top 3
 
         // Cria a estrutura HTML para exibir o ranking
         const rankingContainer = document.getElementById('rankingContainer');
@@ -242,7 +231,6 @@ async function displayRanking() {
 
         // Exibe a seção de ranking
         document.getElementById('rankingSection').style.display = 'block';
-        console.log('Ranking atualizado no HTML.');
     } else {
         console.error('Dados do Supabase não estão disponíveis.');
     }
@@ -278,7 +266,6 @@ function startTimer() {
                     })
                         .then(response => response.json())
                         .then(async data => {
-                            console.log('Sucesso:', data);
                             // Aguarda 2 segundos antes de buscar os dados novamente
                             await new Promise(resolve => setTimeout(resolve, 2000));
                             await fetchData(); // Atualiza os dados do Supabase
@@ -302,7 +289,6 @@ function startTimer() {
                     })
                         .then(response => response.json())
                         .then(async data => {
-                            console.log('Sucesso:', data);
                             // Aguarda 2 segundos antes de buscar os dados novamente
                             await new Promise(resolve => setTimeout(resolve, 2000));
                             await fetchData(); // Atualiza os dados do Supabase
