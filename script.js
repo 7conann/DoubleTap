@@ -93,7 +93,8 @@ function loadWords() {
         console.log('String de perguntas:', perguntasString); // Log da string JSON
 
         try {
-            const perguntas = JSON.parse(`[${perguntasString}]`); // Corrige a string JSON
+            // Corrige a string JSON para garantir que seja um array de objetos
+            const perguntas = JSON.parse(`[${perguntasString.replace(/}\s*,\s*{/g, '},{')}]`);
             shuffleArray(perguntas);
             const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
 
@@ -302,5 +303,4 @@ function startTimer() {
     }, 1000);
 }
 
-// Inicia o jogo e o cronômetro
-startTimer();
+    startTimer();
