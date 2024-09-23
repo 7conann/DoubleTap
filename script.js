@@ -219,6 +219,9 @@ async function displayRanking() {
             rankingContainer.appendChild(userElement);
         });
 
+        // Oculta a seção do jogo
+        document.querySelector('.game').style.display = 'none';
+
         // Exibe a seção de ranking
         document.getElementById('rankingSection').style.display = 'block';
         console.log('Ranking atualizado no HTML.');
