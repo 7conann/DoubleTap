@@ -41,18 +41,21 @@ async function fetchDataPerguntas() {
 
 // Verifica se a biblioteca do Supabase está carregada
 if (window.supabase) {
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
 
         // Função para receber mensagens do site principal
-        window.addEventListener('message', (event) => {
+        window.addEventListener('message', async (event) => {
             if (event.data.type === 'USER_INFO') {
                 const user = event.data.user;
                 // Definir o usuário atual
                 currentUser = user;
                 console.log('Usuário atual:', currentUser);
+
+                await fetchData(); // Busca os dados do Supabase
+                await fetchDataPerguntas(); // Busca os dados de perguntas do Supabase
             }
         });
-     
+
     });
 } else {
     console.error('A biblioteca do Supabase não está carregada.');
