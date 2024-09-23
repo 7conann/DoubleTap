@@ -93,8 +93,7 @@ function loadWords() {
         console.log('String de perguntas:', perguntasString); // Log da string JSON
 
         try {
-            // Corrige a string JSON para garantir que seja um array de objetos
-            const perguntas = JSON.parse(`[${perguntasString}]`);
+            const perguntas = JSON.parse(`[${perguntasString}]`); // Corrige a string JSON
             shuffleArray(perguntas);
             const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
 
@@ -128,6 +127,7 @@ function loadWords() {
         console.warn('Nenhuma pergunta encontrada para o módulo do usuário.');
     }
 }
+
 // Função para gerenciar os cliques e correspondência de termos e explicações
 function addClickEvents() {
     const termButtons = document.querySelectorAll(".term-button");
