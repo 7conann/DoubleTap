@@ -84,11 +84,17 @@ function loadWords() {
         return;
     }
 
-    // Filtra as perguntas pelo módulo do usuário
+    // Verifica se o módulo do usuário está definido
     const userModule = currentUser ? currentUser.modulo : null;
+    if (!userModule) {
+        console.warn('Módulo do usuário não definido.');
+        return;
+    }
+
     console.log('Dados de perguntas:', perguntasData);
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
     console.log('Perguntas filtradas:', filteredPerguntas);
+
     if (filteredPerguntas.length > 0) {
         const perguntasString = filteredPerguntas[0].perguntas;
         console.log('String de perguntas:', perguntasString); // Log da string JSON
@@ -129,7 +135,6 @@ function loadWords() {
         console.warn('Nenhuma pergunta encontrada para o módulo do usuário.');
     }
 }
-
 // Função para gerenciar os cliques e correspondência de termos e explicações
 function addClickEvents() {
     const termButtons = document.querySelectorAll(".term-button");
