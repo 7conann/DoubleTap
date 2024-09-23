@@ -243,7 +243,7 @@ function startTimer() {
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            alert(`Tempo esgotado! Sua pontuação final foi: ${score}`);
+            document.getElementById("timer").textContent = `Tempo esgotado! Sua pontuação final foi: ${score}`;
 
             // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
