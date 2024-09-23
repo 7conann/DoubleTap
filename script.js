@@ -179,39 +179,42 @@ function addClickEvents() {
     });
 }
 
+// Função para exibir o ranking
 async function displayRanking() {
     if (supabaseData) {
-        console.log('Dados do Supabase:', supabaseData); // Log dos dados do Supabase
-
-        // Filtra os dados para incluir apenas usuários com score definido
-        const filteredData = supabaseData.filter(user => user.ranking.score !== undefined && user.ranking.score !== null);
-        console.log('Dados filtrados:', filteredData); // Log dos dados filtrados
-        
         // Ordena os dados pelo score em ordem decrescente
-        const sortedData = filteredData.sort((a, b) => b.ranking.score - a.ranking.score);
-        console.log('Dados ordenados:', sortedData); // Log dos dados ordenados
-        
+        const sortedData = supabaseData.sort((a, b) => b.ranking.score - a.ranking.score);
         // Pega os top 3
         const top3 = sortedData.slice(0, 3);
-        console.log('Top 3:', top3); // Log dos top 3
 
         // Cria a estrutura HTML para exibir o ranking
         const rankingContainer = document.getElementById('rankingContainer');
         rankingContainer.innerHTML = ''; // Limpa o conteúdo anterior
 
-        top3.forEach(user => {
+        top3.forEach((user, index) => {
             const userElement = document.createElement('div');
-            userElement.textContent = `${user.name}: ${user.ranking.score}`;
+            userElement.classList.add('rank-item');
+            if (index === 0) {
+                userElement.classList.add('first');
+            } else if (index === 1) {
+                userElement.classList.add('second');
+            } else if (index === 2) {
+                userElement.classList.add('third');
+            }
+            userElement.innerHTML = `
+                <span>#${index + 1}</span>
+                <p>${user.ranking.name}</p>
+                <p class="seg">${user.ranking.score} pontos</p>
+                <p class="seg">${user.ranking.time} segundos</p>
+            `;
             rankingContainer.appendChild(userElement);
         });
 
-        // Exibe a seção de ranking
-        document.getElementById('rankingSection').style.display = 'block';
-        console.log('Ranking atualizado no HTML.');
     } else {
-        console.warn('supabaseData está vazio ou indefinido.');
+        console.error('Dados do Supabase não estão disponíveis.');
     }
 }
+
 function startTimer() {
     const timerInterval = setInterval(() => {
         timeLeft--;
