@@ -53,7 +53,7 @@ if (window.supabase) {
             }
         });
         fetchData();
-
+        startTimer();
     });
 } else {
     console.error('A biblioteca do Supabase não está carregada.');
@@ -310,4 +310,3 @@ function startTimer() {
     }, 1000);
 }
 
-    startTimer();
