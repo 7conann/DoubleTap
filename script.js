@@ -18,6 +18,7 @@ async function fetchData() {
         console.warn('Nenhum dado encontrado na tabela workez.');
     }
     supabaseData = data; // Armazena os dados do Supabase
+    fetchDataPerguntas();
 }
 async function fetchDataPerguntas() {
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
