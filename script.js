@@ -188,20 +188,39 @@ async function displayRanking() {
         const top3 = sortedData.slice(0, 3);
 
         // Cria a estrutura HTML para exibir o ranking
-        const rankingContainer = document.createElement('div');
-        rankingContainer.classList.add('ranking-container');
-        rankingContainer.innerHTML = '<h2>Top 3 Jogadores</h2>';
+        const rankingContainer = document.getElementById('rankingContainer');
+        rankingContainer.innerHTML = ''; // Limpa o conteúdo anterior
 
         top3.forEach((user, index) => {
             const userElement = document.createElement('div');
-            userElement.classList.add('ranking-item');
-            userElement.innerHTML = `<strong>${index + 1}. ${user.ranking.name}</strong> - ${user.ranking.score} pontos`;
+            userElement.classList.add('rank-item');
+            if (index === 0) {
+                userElement.classList.add('first');
+            } else if (index === 1) {
+                userElement.classList.add('second');
+            } else if (index === 2) {
+                userElement.classList.add('third');
+            }
+            userElement.innerHTML = `
+                <span>#${index + 1}</span>
+                <p>${user.ranking.name}</p>
+                <p class="seg">${user.ranking.score} pontos</p>
+                <p class="seg">${user.ranking.time} segundos</p>
+            `;
             rankingContainer.appendChild(userElement);
         });
 
-        // Esconde o conteúdo atual e exibe o ranking
-        document.querySelector('.container').style.display = 'none';
-        document.body.appendChild(rankingContainer);
+        // Atualiza os dados do usuário atual
+        const currentUserElement = document.querySelector('.current-user');
+        const currentUserData = sortedData.find(user => user.id === currentUser.id);
+        if (currentUserData) {
+            document.getElementById('currentUserPosition').textContent = `#${sortedData.indexOf(currentUserData) + 1}`;
+            document.getElementById('currentUserName').textContent = currentUserData.ranking.name;
+            document.getElementById('currentUserScore').textContent = `${currentUserData.ranking.score} pontos`;
+            document.getElementById('currentUserTiming').textContent = `${currentUserData.ranking.time} segundos`;
+        } else {
+            currentUserElement.style.display = 'none';
+        }
     } else {
         console.error('Dados do Supabase não estão disponíveis.');
     }
