@@ -253,7 +253,11 @@ function startTimer() {
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         await fetchData(); // Atualiza os dados do Supabase
                         // Exibe o ranking após enviar os dados
-                        displayRanking();
+                        if (score > 0) {
+                            displayRanking();
+                        } else {
+                            alert('Sua pontuação é zero. Você não será exibido no ranking.');
+                        }
                     })
                     .catch((error) => console.error('Erro:', error));
                 } else if (!userExists) {
@@ -277,17 +281,29 @@ function startTimer() {
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         await fetchData(); // Atualiza os dados do Supabase
                         // Exibe o ranking após enviar os dados
-                        displayRanking();
+                        if (score > 0) {
+                            displayRanking();
+                        } else {
+                            alert('Sua pontuação é zero. Você não será exibido no ranking.');
+                        }
                     })
                     .catch((error) => console.error('Erro:', error));
                 } else {
                     // Exibe o ranking sem atualizar o score
-                    displayRanking();
+                    if (score > 0) {
+                        displayRanking();
+                    } else {
+                        alert('Sua pontuação é zero. Você não será exibido no ranking.');
+                    }
                 }
             } else {
                 console.error('Usuário atual não está definido.');
                 // Exibe o ranking mesmo que o usuário não esteja definido
-                displayRanking();
+                if (score > 0) {
+                    displayRanking();
+                } else {
+                    alert('Sua pontuação é zero. Você não será exibido no ranking.');
+                }
             }
         }
     }, 1000);
