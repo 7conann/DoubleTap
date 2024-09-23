@@ -210,6 +210,9 @@ async function displayRanking() {
             rankingContainer.appendChild(userElement);
         });
 
+        // Esconde a seção de perguntas e mostra a seção de ranking
+        document.querySelector('.game').style.display = 'none';
+        document.querySelector('.ranking').style.display = 'block';
     } else {
         console.error('Dados do Supabase não estão disponíveis.');
     }
