@@ -179,11 +179,14 @@ function addClickEvents() {
     });
 }
 
-// Função para exibir o ranking
 async function displayRanking() {
     if (supabaseData) {
+        // Filtra os dados para incluir apenas usuários com score definido
+        const filteredData = supabaseData.filter(user => user.ranking.score !== undefined && user.ranking.score !== null);
+        
         // Ordena os dados pelo score em ordem decrescente
-        const sortedData = supabaseData.sort((a, b) => b.ranking.score - a.ranking.score);
+        const sortedData = filteredData.sort((a, b) => b.ranking.score - a.ranking.score);
+        
         // Pega os top 3
         const top3 = sortedData.slice(0, 3);
 
@@ -191,33 +194,13 @@ async function displayRanking() {
         const rankingContainer = document.getElementById('rankingContainer');
         rankingContainer.innerHTML = ''; // Limpa o conteúdo anterior
 
-        top3.forEach((user, index) => {
+        top3.forEach(user => {
             const userElement = document.createElement('div');
-            userElement.classList.add('rank-item');
-            if (index === 0) {
-                userElement.classList.add('first');
-            } else if (index === 1) {
-                userElement.classList.add('second');
-            } else if (index === 2) {
-                userElement.classList.add('third');
-            }
-            userElement.innerHTML = `
-                <span>#${index + 1}</span>
-                <p>${user.ranking.name}</p>
-                <p class="seg">${user.ranking.score} pontos</p>
-                <p class="seg">${user.ranking.time} segundos</p>
-            `;
+            userElement.textContent = `${user.name}: ${user.ranking.score}`;
             rankingContainer.appendChild(userElement);
         });
-
-        // Esconde a seção de perguntas e mostra a seção de ranking
-        document.querySelector('.game').style.display = 'none';
-        document.querySelector('.ranking').style.display = 'block';
-    } else {
-        console.error('Dados do Supabase não estão disponíveis.');
     }
 }
-
 function startTimer() {
     const timerInterval = setInterval(() => {
         timeLeft--;
@@ -253,11 +236,7 @@ function startTimer() {
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         await fetchData(); // Atualiza os dados do Supabase
                         // Exibe o ranking após enviar os dados
-                        if (score > 0) {
-                            displayRanking();
-                        } else {
-                            alert('Sua pontuação é zero. Você não será exibido no ranking.');
-                        }
+                        displayRanking();
                     })
                     .catch((error) => console.error('Erro:', error));
                 } else if (!userExists) {
@@ -281,29 +260,17 @@ function startTimer() {
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         await fetchData(); // Atualiza os dados do Supabase
                         // Exibe o ranking após enviar os dados
-                        if (score > 0) {
-                            displayRanking();
-                        } else {
-                            alert('Sua pontuação é zero. Você não será exibido no ranking.');
-                        }
+                        displayRanking();
                     })
                     .catch((error) => console.error('Erro:', error));
                 } else {
                     // Exibe o ranking sem atualizar o score
-                    if (score > 0) {
-                        displayRanking();
-                    } else {
-                        alert('Sua pontuação é zero. Você não será exibido no ranking.');
-                    }
+                    displayRanking();
                 }
             } else {
                 console.error('Usuário atual não está definido.');
                 // Exibe o ranking mesmo que o usuário não esteja definido
-                if (score > 0) {
-                    displayRanking();
-                } else {
-                    alert('Sua pontuação é zero. Você não será exibido no ranking.');
-                }
+                displayRanking();
             }
         }
     }, 1000);
