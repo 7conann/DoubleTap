@@ -77,6 +77,10 @@ function shuffleArray(array) {
 function loadWords() {
     const businessColumn = document.getElementById("business-terms");
     const explanationColumn = document.getElementById("explanations");
+    const loadingIndicator = document.getElementById("loading-indicator");
+
+    // Exibe o indicador de carregamento
+    loadingIndicator.style.display = "block";
 
     // Limpa as colunas
     businessColumn.innerHTML = "";
@@ -84,6 +88,7 @@ function loadWords() {
 
     if (!perguntasData) {
         console.warn('Dados de perguntas não carregados.');
+        loadingIndicator.style.display = "none"; // Oculta o indicador de carregamento
         return;
     }
 
@@ -91,6 +96,7 @@ function loadWords() {
     const userModule = currentUser ? currentUser.modulo : null;
     if (!userModule) {
         console.warn('Módulo do usuário não definido.');
+        loadingIndicator.style.display = "none"; // Oculta o indicador de carregamento
         return;
     }
 
@@ -138,7 +144,11 @@ function loadWords() {
     } else {
         console.warn('Nenhuma pergunta encontrada para o módulo do usuário.');
     }
+
+    // Oculta o indicador de carregamento após carregar os dados
+    loadingIndicator.style.display = "none";
 }
+
 // Função para gerenciar os cliques e correspondência de termos e explicações
 function addClickEvents() {
     const termButtons = document.querySelectorAll(".term-button");
@@ -312,4 +322,3 @@ function startTimer() {
         }
     }, 1000);
 }
-
