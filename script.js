@@ -240,7 +240,7 @@ function startTimer() {
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
                 const userData = supabaseData.find(user => user.id === currentUser.id);
-                
+
                 if (userExists && userData.ranking.score < score) {
                     // Atualiza o score se o novo score for maior
                     const url = 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
@@ -255,16 +255,16 @@ function startTimer() {
                             score: score
                         })
                     })
-                    .then(response => response.json())
-                    .then(async data => {
-                        console.log('Sucesso:', data);
-                        // Aguarda 2 segundos antes de buscar os dados novamente
-                        await new Promise(resolve => setTimeout(resolve, 2000));
-                        await fetchData(); // Atualiza os dados do Supabase
-                        // Exibe o ranking após enviar os dados
-                        displayRanking();
-                    })
-                    .catch((error) => console.error('Erro:', error));
+                        .then(response => response.json())
+                        .then(async data => {
+                            console.log('Sucesso:', data);
+                            // Aguarda 2 segundos antes de buscar os dados novamente
+                            await new Promise(resolve => setTimeout(resolve, 2000));
+                            await fetchData(); // Atualiza os dados do Supabase
+                            // Exibe o ranking após enviar os dados
+                            displayRanking();
+                        })
+                        .catch((error) => console.error('Erro:', error));
                 } else if (!userExists) {
                     // Cria um novo registro se o usuário não existir
                     const url = 'https://webhook.workez.online/webhook/90663608-b1d7-48b6-bdbd-3892ff7b3788';
@@ -274,34 +274,33 @@ function startTimer() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                                                                                  name: currentUser.name,
-                                                        id: currentUser.id,
-                                                        score: score
-                                                    })
-                                                })
-                                                .then(response => response.json())
-                                                .then(async data => {
-                                                    console.log('Sucesso:', data);
-                                                    // Aguarda 2 segundos antes de buscar os dados novamente
-                                                    await new Promise(resolve => setTimeout(resolve, 2000));
-                                                    await fetchData(); // Atualiza os dados do Supabase
-                                                    // Exibe o ranking após enviar os dados
-                                                    displayRanking();
-                                                })
-                                                .catch((error) => console.error('Erro:', error));
-                                            } else {
-                                                // Exibe o ranking sem atualizar o score
-                                                displayRanking();
-                                            }
-                                        } else {
-                                            console.error('Usuário atual não está definido.');
-                                            // Exibe o ranking mesmo que o usuário não esteja definido
-                                            displayRanking();
-                                        }
-                                    }
-                                }, 1000);
-                            }
-                            
-                            // Inicia o jogo e o cronômetro
-                            fetchData(); // Certifique-se de que os dados sejam carregados antes de iniciar o cronômetro
-                            startTimer();
+                            name: currentUser.name,
+                            id: currentUser.id,
+                            score: score
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(async data => {
+                            console.log('Sucesso:', data);
+                            // Aguarda 2 segundos antes de buscar os dados novamente
+                            await new Promise(resolve => setTimeout(resolve, 2000));
+                            await fetchData(); // Atualiza os dados do Supabase
+                            // Exibe o ranking após enviar os dados
+                            displayRanking();
+                        })
+                        .catch((error) => console.error('Erro:', error));
+                } else {
+                    // Exibe o ranking sem atualizar o score
+                    displayRanking();
+                }
+            } else {
+                console.error('Usuário atual não está definido.');
+                // Exibe o ranking mesmo que o usuário não esteja definido
+                displayRanking();
+            }
+        }
+    }, 1000);
+}
+
+// Inicia o jogo e o cronômetro
+startTimer();
