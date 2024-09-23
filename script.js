@@ -243,8 +243,7 @@ function startTimer() {
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            document.getElementById("timer").textContent = `Tempo esgotado! Sua pontuação final foi: ${score}`;
-
+            document.getElementById("timer").textContent = `Tempo: 0s`;
             // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
