@@ -163,7 +163,6 @@ h4 {
 
 @media (max-width: 768px) {
     .ranking {
-        width: 80%;
         padding: 15px;
     }
 
@@ -179,7 +178,6 @@ h4 {
 
 @media (max-width: 480px) {
     .ranking {
-        width: 70%;
         padding: 10px;
     }
 
