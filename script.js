@@ -274,4 +274,34 @@ function startTimer() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            name:
+                                                                                  name: currentUser.name,
+                                                        id: currentUser.id,
+                                                        score: score
+                                                    })
+                                                })
+                                                .then(response => response.json())
+                                                .then(async data => {
+                                                    console.log('Sucesso:', data);
+                                                    // Aguarda 2 segundos antes de buscar os dados novamente
+                                                    await new Promise(resolve => setTimeout(resolve, 2000));
+                                                    await fetchData(); // Atualiza os dados do Supabase
+                                                    // Exibe o ranking após enviar os dados
+                                                    displayRanking();
+                                                })
+                                                .catch((error) => console.error('Erro:', error));
+                                            } else {
+                                                // Exibe o ranking sem atualizar o score
+                                                displayRanking();
+                                            }
+                                        } else {
+                                            console.error('Usuário atual não está definido.');
+                                            // Exibe o ranking mesmo que o usuário não esteja definido
+                                            displayRanking();
+                                        }
+                                    }
+                                }, 1000);
+                            }
+                            
+                            // Inicia o jogo e o cronômetro
+                            fetchData(); // Certifique-se de que os dados sejam carregados antes de iniciar o cronômetro
+                            startTimer();
