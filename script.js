@@ -1,10 +1,12 @@
 let currentUser = null; // Variável global para armazenar os dados do usuário atual
 let supabaseData = null; // Variável global para armazenar os dados do Supabase
+let perguntasData = null; // Variável global para armazenar os dados de perguntas do Supabase
 
 const SUPABASE_URL = 'https://eunburxiqtzftppqvxtr.supabase.co'; // Substitua pela sua URL do Supabase
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1bmJ1cnhpcXR6ZnRwcHF2eHRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU1Njc3MzEsImV4cCI6MjA0MTE0MzczMX0.y-EgwTJ-uEzbLa_bTSzbEN10dSyTVrSJ27zrl51MLKc'; // Substitua pela sua chave de API do Supabase
 const TABLE_NAME = 'atm-dadosDoubleTap';
 const TABLE_NAME_PERGUNTAS = 'modulos';
+
 // Função para buscar dados do Supabase e atualizar o ranking
 async function fetchData() {
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -20,6 +22,8 @@ async function fetchData() {
     supabaseData = data; // Armazena os dados do Supabase
     fetchDataPerguntas();
 }
+
+// Função para buscar dados de perguntas do Supabase
 async function fetchDataPerguntas() {
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let { data, error } = await supabase
@@ -31,7 +35,7 @@ async function fetchDataPerguntas() {
     } else if (data.length === 0) {
         console.warn('Nenhum dado encontrado na tabela workez.');
     }
-    supabaseData = data; // Armazena os dados do Supabase
+    perguntasData = data; // Armazena os dados de perguntas do Supabase
 }
 
 // Verifica se a biblioteca do Supabase está carregada
@@ -52,47 +56,6 @@ if (window.supabase) {
 } else {
     console.error('A biblioteca do Supabase não está carregada.');
 }
-
-let businessTerms = [
-    { term: "Empreendedorismo", explanation: "Ato de criar e gerenciar novos negócios visando lucro e inovação." },
-    { term: "Marketing Digital", explanation: "Estratégias de promoção online para alcançar o público-alvo." },
-    { term: "Pitch", explanation: "Apresentação rápida de uma ideia de negócio a investidores." },
-    { term: "Branding", explanation: "Processo de construção e gestão da marca de uma empresa." },
-    { term: "Networking", explanation: "Criação e manutenção de uma rede de contatos profissionais." },
-    { term: "Escalabilidade", explanation: "Capacidade de um negócio crescer sem perder eficiência." },
-    { term: "ROI", explanation: "Retorno sobre o investimento." },
-    { term: "Growth Hacking", explanation: "Técnicas criativas para aumentar o crescimento rapidamente." },
-    { term: "Lead", explanation: "Potencial cliente interessado no produto ou serviço." },
-    { term: "SEO", explanation: "Otimização de motores de busca para melhorar a visibilidade online." },
-    { term: "B2B", explanation: "Negócio entre duas empresas (business to business)." },
-    { term: "B2C", explanation: "Negócio entre empresa e consumidor final (business to consumer)." },
-    { term: "CAC", explanation: "Custo de Aquisição de Cliente." },
-    { term: "Churn", explanation: "Taxa de cancelamento de clientes." },
-    { term: "KPIs", explanation: "Indicadores-chave de desempenho para medir o sucesso de uma ação." },
-    { term: "Funnel", explanation: "Estratégia que acompanha o cliente desde a atração até a compra." },
-    { term: "Conversão", explanation: "Transformação de um lead em cliente pagante." },
-    { term: "Call to Action (CTA)", explanation: "Chamada para ação que incentiva o usuário a executar algo específico." },
-    { term: "Inbound Marketing", explanation: "Atração de clientes através de conteúdo relevante e valioso." },
-    { term: "Outbound Marketing", explanation: "Marketing tradicional que vai atrás do cliente (ex.: anúncios)." },
-    { term: "Persona", explanation: "Representação fictícia do cliente ideal para orientar a comunicação da marca." },
-    { term: "Landing Page", explanation: "Página específica criada para conversão em uma campanha de marketing." },
-    { term: "Viral Marketing", explanation: "Técnica de marketing que incentiva a propagação de uma mensagem de forma rápida." },
-    { term: "Benchmarking", explanation: "Comparação das práticas de uma empresa com as melhores do mercado." },
-    { term: "Lean Startup", explanation: "Metodologia que visa reduzir desperdícios e desenvolver produtos viáveis rapidamente." },
-    { term: "Revenue", explanation: "Receita gerada por uma empresa." },
-    { term: "Break Even", explanation: "Ponto de equilíbrio onde as receitas se igualam aos custos." },
-    { term: "Escrow", explanation: "Serviço financeiro que retém pagamento até que as condições de um contrato sejam cumpridas." },
-    { term: "Crowdfunding", explanation: "Financiamento coletivo onde várias pessoas investem em um projeto ou empresa." },
-    { term: "Spin-off", explanation: "Criação de uma nova empresa a partir de uma divisão de uma empresa existente." },
-    { term: "Stakeholders", explanation: "Todas as partes interessadas que afetam ou são afetadas pelas operações de uma empresa." },
-    { term: "IPO", explanation: "Oferta pública inicial, quando uma empresa abre seu capital para o mercado de ações." },
-    { term: "Joint Venture", explanation: "Parceria entre empresas para um projeto específico, mantendo a independência." },
-    { term: "Valuation", explanation: "Avaliação do valor de mercado de uma empresa." },
-    { term: "Bootstrapping", explanation: "Financiar um negócio sem recorrer a investidores externos, usando apenas recursos próprios." },
-    { term: "MVP", explanation: "Produto mínimo viável para testar hipóteses com menor esforço possível." },
-    { term: "Capital de Risco", explanation: "Investimento em startups e empresas inovadoras de alto risco." },
-    { term: "Due Diligence", explanation: "Processo de investigação detalhada antes de uma aquisição ou investimento." }
-];
 
 let score = 0;
 let timeLeft = 30; // 1 minuto
@@ -115,33 +78,41 @@ function loadWords() {
     businessColumn.innerHTML = "";
     explanationColumn.innerHTML = "";
 
-    // Pega 5 pares aleatórios e embaralha
-    shuffleArray(businessTerms);
-    const currentPairs = businessTerms.slice(0, 5); // Pega 5 pares
+    // Filtra as perguntas pelo módulo do usuário
+    const userModule = currentUser ? currentUser.modulo : null;
+    const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
+    console.log('Perguntas filtradas:', filteredPerguntas);
+    if (filteredPerguntas.length > 0) {
+        const perguntas = JSON.parse(filteredPerguntas[0].perguntas);
+        shuffleArray(perguntas);
+        const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
 
-    // Coloca os termos e explicações embaralhados na tela
-    const terms = currentPairs.map(pair => pair.term);
-    const explanations = currentPairs.map(pair => pair.explanation);
-    shuffleArray(terms);
-    shuffleArray(explanations);
+        // Coloca os termos e explicações embaralhados na tela
+        const terms = currentPairs.map(pair => pair.term);
+        const explanations = currentPairs.map(pair => pair.explanation);
+        shuffleArray(terms);
+        shuffleArray(explanations);
 
-    terms.forEach((term, index) => {
-        const termButton = document.createElement("button");
-        termButton.textContent = term;
-        termButton.dataset.index = currentPairs.findIndex(pair => pair.term === term);
-        termButton.classList.add("term-button");
-        businessColumn.appendChild(termButton);
-    });
+        terms.forEach((term, index) => {
+            const termButton = document.createElement("button");
+            termButton.textContent = term;
+            termButton.dataset.index = currentPairs.findIndex(pair => pair.term === term);
+            termButton.classList.add("term-button");
+            businessColumn.appendChild(termButton);
+        });
 
-    explanations.forEach((explanation, index) => {
-        const explanationButton = document.createElement("button");
-        explanationButton.textContent = explanation;
-        explanationButton.dataset.index = currentPairs.findIndex(pair => pair.explanation === explanation);
-        explanationButton.classList.add("explanation-button");
-        explanationColumn.appendChild(explanationButton);
-    });
+        explanations.forEach((explanation, index) => {
+            const explanationButton = document.createElement("button");
+            explanationButton.textContent = explanation;
+            explanationButton.dataset.index = currentPairs.findIndex(pair => pair.explanation === explanation);
+            explanationButton.classList.add("explanation-button");
+            explanationColumn.appendChild(explanationButton);
+        });
 
-    addClickEvents();
+        addClickEvents();
+    } else {
+        console.warn('Nenhuma pergunta encontrada para o módulo do usuário.');
+    }
 }
 
 // Função para gerenciar os cliques e correspondência de termos e explicações
