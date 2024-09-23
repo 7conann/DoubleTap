@@ -81,7 +81,7 @@ let businessTerms = [
 ];
 
 let score = 0;
-let timeLeft = 5; // 1 minuto
+let timeLeft = 60; // 1 minuto
 let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
@@ -220,31 +220,58 @@ function startTimer() {
             // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
-                const url = userExists
-                    ? 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6'
-                    : 'https://webhook.workez.online/webhook/90663608-b1d7-48b6-bdbd-3892ff7b3788';
-
-                // Envia os dados de pontuação para a URL apropriada
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: currentUser.name,
-                        id: currentUser.id,
-                        score: score
+                const userData = supabaseData.find(user => user.id === currentUser.id);
+                
+                if (userExists && userData.ranking.score < score) {
+                    // Atualiza o score se o novo score for maior
+                    const url = 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: currentUser.name,
+                            id: currentUser.id,
+                            score: score
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Sucesso:', data);
-                    // Exibe o ranking após enviar os dados
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Sucesso:', data);
+                        // Exibe o ranking após enviar os dados
+                        displayRanking();
+                    })
+                    .catch((error) => console.error('Erro:', error));
+                } else if (!userExists) {
+                    // Cria um novo registro se o usuário não existir
+                    const url = 'https://n8n.workez.online/webhook-test/90663608-b1d7-48b6-bdbd-3892ff7b3788';
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: currentUser.name,
+                            id: currentUser.id,
+                            score: score
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Sucesso:', data);
+                        // Exibe o ranking após enviar os dados
+                        displayRanking();
+                    })
+                    .catch((error) => console.error('Erro:', error));
+                } else {
+                    // Exibe o ranking sem atualizar o score
                     displayRanking();
-                })
-                .catch((error) => console.error('Erro:', error));
+                }
             } else {
                 console.error('Usuário atual não está definido.');
+                // Exibe o ranking mesmo que o usuário não esteja definido
+                displayRanking();
             }
         }
     }, 1000);
