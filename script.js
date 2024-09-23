@@ -181,14 +181,19 @@ function addClickEvents() {
 
 async function displayRanking() {
     if (supabaseData) {
+        console.log('Dados do Supabase:', supabaseData); // Log dos dados do Supabase
+
         // Filtra os dados para incluir apenas usuários com score definido
         const filteredData = supabaseData.filter(user => user.ranking.score !== undefined && user.ranking.score !== null);
+        console.log('Dados filtrados:', filteredData); // Log dos dados filtrados
         
         // Ordena os dados pelo score em ordem decrescente
         const sortedData = filteredData.sort((a, b) => b.ranking.score - a.ranking.score);
+        console.log('Dados ordenados:', sortedData); // Log dos dados ordenados
         
         // Pega os top 3
         const top3 = sortedData.slice(0, 3);
+        console.log('Top 3:', top3); // Log dos top 3
 
         // Cria a estrutura HTML para exibir o ranking
         const rankingContainer = document.getElementById('rankingContainer');
@@ -199,6 +204,8 @@ async function displayRanking() {
             userElement.textContent = `${user.name}: ${user.ranking.score}`;
             rankingContainer.appendChild(userElement);
         });
+    } else {
+        console.warn('supabaseData está vazio ou indefinido.');
     }
 }
 function startTimer() {
