@@ -214,10 +214,12 @@ async function displayRanking() {
         const currentUserElement = document.querySelector('.current-user');
         const currentUserData = sortedData.find(user => user.id === currentUser.id);
         if (currentUserData) {
-            document.getElementById('currentUserPosition').textContent = `#${sortedData.indexOf(currentUserData) + 1}`;
-            document.getElementById('currentUserName').textContent = currentUserData.ranking.name;
-            document.getElementById('currentUserScore').textContent = `${currentUserData.ranking.score} pontos`;
-            document.getElementById('currentUserTiming').textContent = `${currentUserData.ranking.time} segundos`;
+            currentUserElement.innerHTML = `
+                <span id="currentUserPosition">#${sortedData.indexOf(currentUserData) + 1}</span>
+                <p id="currentUserName">${currentUserData.ranking.name}</p>
+                <p class="seg" id="currentUserScore">${currentUserData.ranking.score} pontos</p>
+                <p class="seg" id="currentUserTiming">${currentUserData.ranking.time} segundos</p>
+            `;
         } else {
             currentUserElement.style.display = 'none';
         }
