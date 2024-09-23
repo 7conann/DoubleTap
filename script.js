@@ -20,7 +20,8 @@ async function fetchData() {
         console.warn('Nenhum dado encontrado na tabela workez.');
     }
     supabaseData = data; // Armazena os dados do Supabase
-    fetchDataPerguntas();
+    await fetchDataPerguntas(); // Aguarda a busca de perguntas antes de continuar
+    loadWords(); // Chama loadWords após os dados de perguntas serem carregados
 }
 
 // Função para buscar dados de perguntas do Supabase
@@ -77,6 +78,11 @@ function loadWords() {
     // Limpa as colunas
     businessColumn.innerHTML = "";
     explanationColumn.innerHTML = "";
+
+    if (!perguntasData) {
+        console.warn('Dados de perguntas não carregados.');
+        return;
+    }
 
     // Filtra as perguntas pelo módulo do usuário
     const userModule = currentUser ? currentUser.modulo : null;
@@ -290,5 +296,4 @@ function startTimer() {
 }
 
 // Inicia o jogo e o cronômetro
-loadWords();
 startTimer();
