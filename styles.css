@@ -73,16 +73,20 @@ button:hover {
     background-color: #3a3a3c;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
 }
+button.selected {
+    border: 2px solid white; /* Borda fina branca para o botão selecionado */
+}
 
 button.correct {
     background-color: #34c759; /* Cor verde para correspondência correta */
     color: white;
     opacity: 0; /* Desaparece com transição */
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, background-color 0.3s ease, border 0.3s ease;
 }
 
 button.wrong {
     background-color: #ff3b30; /* Cor vermelha para correspondência errada */
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
 button.correct-disappear {
