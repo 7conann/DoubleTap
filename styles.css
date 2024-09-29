@@ -87,7 +87,8 @@ button.correct {
 button.wrong {
     background: linear-gradient(to bottom, #B70000, #800000); 
     opacity: 0;/* Gradiente linear de cima para baixo */
-    transition:opacity 0.7s ease,  background-color 0.2s ease, border 0.2s ease;
+    border: 2px solid white; /* Borda fina branca para o botão selecionado */
+    transition:opacity 0.7s ease,  background-color 0.2s ease, border 0.7s ease;
 }
 
 button.correct-disappear {
