@@ -81,11 +81,11 @@ button.correct {
     background: #34c759; /* Cor verde para correspondência correta */
     color: white;
     opacity: 0; /* Desaparece com transição */
-    transition: opacity 0.5s ease, background-color 0.3s ease, border 0.3s ease;
+    transition: opacity 0.7s ease, background-color 0.5s ease, border 0.3s ease;
 }
 
 button.wrong {
-    background-color: #ff3b30; /* Cor vermelha para correspondência errada */
+    background: #ff3b30; /* Cor vermelha para correspondência errada */
     transition: background-color 0.3s ease, border 0.3s ease;
 }
 
