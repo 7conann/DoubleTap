@@ -178,14 +178,13 @@ function addClickEvents() {
             console.log('Explicação clicada:', this.textContent);
             if (selectedTerm && selectedTerm.dataset.index === this.dataset.index) {
                 // Correspondência correta
-                selectedTerm.classList.add("correct");
                 this.classList.add("correct");
 
                 // Aguarda a transição para desaparecer os botões
                 setTimeout(() => {
-                    selectedTerm.classList.add("correct-disappear");
                     this.classList.add("correct-disappear");
                     loadWords(); // Recarrega a grade após a correspondência
+                    selectedTerm.classList.remove("selected"); // Remove a classe selecionada
                     selectedTerm = null;
                 }, 500);
 
@@ -193,12 +192,10 @@ function addClickEvents() {
                 document.getElementById("score").textContent = `Pontuação: ${score}`;
             } else if (selectedTerm) {
                 // Correspondência incorreta
-                selectedTerm.classList.add("wrong");
                 this.classList.add("wrong");
 
                 // Reseta a seleção incorreta após um tempo
                 setTimeout(() => {
-                    selectedTerm.classList.remove("wrong");
                     this.classList.remove("wrong");
                     selectedTerm.classList.remove("selected"); // Remove a classe selecionada
                     selectedTerm = null;
