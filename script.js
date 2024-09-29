@@ -251,7 +251,7 @@ function startTimer() {
 
                 if (userExists && userData.ranking.score < score) {
                     // Atualiza o score se o novo score for maior
-                    const url = 'https://webhook.workez.online/webhook/939cda9f-fe23-4d1c-9c88-883f1be420e6';
+                    const url = 'https://n8neditor.iatom.site/webhook-test/f9592bf0-57e2-4ea4-a404-3b67c0bf978c';
                     fetch(url, {
                         method: 'POST',
                         headers: {
@@ -274,7 +274,7 @@ function startTimer() {
                         .catch((error) => console.error('Erro:', error));
                 } else if (!userExists) {
                     // Cria um novo registro se o usuário não existir
-                    const url = 'https://webhook.workez.online/webhook/90663608-b1d7-48b6-bdbd-3892ff7b3788';
+                    const url = 'https://n8neditor.iatom.site/webhook-test/857e706e-c7e4-40fe-b954-fde4a598909f';
                     fetch(url, {
                         method: 'POST',
                         headers: {
