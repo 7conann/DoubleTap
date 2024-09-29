@@ -59,7 +59,7 @@ if (window.supabase) {
 }
 
 let score = 0;
-let timeLeft = 60; // 1 minuto
+let timeLeft = 5; // 1 minuto
 let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
