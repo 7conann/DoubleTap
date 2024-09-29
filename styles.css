@@ -35,7 +35,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    align-items: center;
+    align-items: end;
 }
 
 #score, #timer {
