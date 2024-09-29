@@ -43,7 +43,7 @@ h1 {
 #score, #timer {
     font-size: 18px;
     font-weight: bolder;
-    color: blueviolet;
+    color: linear-gradient(to right, #FAA101, #D06400); /* Gradiente linear de FAA101 para D06400 */
 
 }
 .timer {
