@@ -9,7 +9,6 @@ const TABLE_NAME_PERGUNTAS = 'modulos';
 
 // Função para buscar dados do Supabase e atualizar o ranking
 async function fetchData() {
-    console.log('Iniciando fetchData');
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let { data, error } = await supabase
         .from(TABLE_NAME)
@@ -19,7 +18,6 @@ async function fetchData() {
     } else if (data.length === 0) {
         console.warn('Nenhum dado encontrado na tabela workez.');
     }
-    console.log('Dados recebidos do Supabase:', data);
     supabaseData = data; // Armazena os dados do Supabase
     await fetchDataPerguntas(); // Aguarda a busca de perguntas antes de continuar
     loadWords(); // Chama loadWords após os dados de perguntas serem carregados
@@ -27,7 +25,6 @@ async function fetchData() {
 
 // Função para buscar dados de perguntas do Supabase
 async function fetchDataPerguntas() {
-    console.log('Iniciando fetchDataPerguntas');
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let { data, error } = await supabase
         .from(TABLE_NAME_PERGUNTAS)
@@ -37,28 +34,22 @@ async function fetchDataPerguntas() {
     } else if (data.length === 0) {
         console.warn('Nenhum dado encontrado na tabela workez.');
     }
-    console.log('Dados de perguntas recebidos do Supabase:', data);
     perguntasData = data; // Armazena os dados de perguntas do Supabase
 }
 
 // Verifica se a biblioteca do Supabase está carregada
 if (window.supabase) {
     document.addEventListener('DOMContentLoaded', async () => {
-        console.log('DOM totalmente carregado');
-
         // Função para receber mensagens do site principal
         window.addEventListener('message', async (event) => {
             if (event.data.type === 'USER_INFO') {
                 const user = event.data.user;
                 // Definir o usuário atual
                 currentUser = user;
-                console.log('Usuário atual:', currentUser);
                 await fetchData(); // Busca os dados de perguntas do Supabase
-
                 await startTimer(); // Busca os dados do Supabase
             }
         });
-
     });
 } else {
     console.error('A biblioteca do Supabase não está carregada.');
@@ -70,17 +61,14 @@ let selectedTerm = null; // Controla o termo selecionado
 
 // Função para embaralhar os itens
 function shuffleArray(array) {
-    console.log('Embaralhando array:', array);
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
-    console.log('Array embaralhado:', array);
 }
 
 // Função para carregar os termos e explicações
 function loadWords() {
-    console.log('Iniciando loadWords');
     const businessColumn = document.getElementById("business-terms");
     const explanationColumn = document.getElementById("explanations");
     const loadingIndicator = document.getElementById("loading-indicator");
@@ -107,20 +95,16 @@ function loadWords() {
     }
 
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
-    console.log('Perguntas filtradas:', filteredPerguntas);
 
     if (filteredPerguntas.length > 0) {
         const perguntasString = filteredPerguntas[0].perguntas;
-        console.log('String de perguntas:', perguntasString);
 
         try {
             // Corrige a string JSON para garantir que seja um array de objetos
             const formattedString = `[${perguntasString.replace(/}\s*,\s*{/g, '},{').replace(/(\w+):/g, '"$1":')}]`;
             const perguntas = JSON.parse(formattedString);
-            console.log('Perguntas após parse:', perguntas);
             shuffleArray(perguntas);
             const currentPairs = perguntas.slice(0, 5); // Pega 5 pares
-            console.log('Pares atuais:', currentPairs);
 
             // Coloca os termos e explicações embaralhados na tela
             const terms = currentPairs.map(pair => pair.term);
@@ -157,15 +141,12 @@ function loadWords() {
 }
 
 // Função para gerenciar os cliques e correspondência de termos e explicações
-// Função para gerenciar os cliques e correspondência de termos e explicações
 function addClickEvents() {
-    console.log('Adicionando eventos de clique');
     const termButtons = document.querySelectorAll(".term-button");
     const explanationButtons = document.querySelectorAll(".explanation-button");
 
     termButtons.forEach(button => {
         button.addEventListener("click", function () {
-            console.log('Termo clicado:', this.textContent);
             if (!selectedTerm) {
                 selectedTerm = this;
                 this.classList.add("selected"); // Adiciona a classe selecionada
@@ -175,7 +156,6 @@ function addClickEvents() {
 
     explanationButtons.forEach(button => {
         button.addEventListener("click", function () {
-            console.log('Explicação clicada:', this.textContent);
             if (selectedTerm && selectedTerm.dataset.index === this.dataset.index) {
                 // Correspondência correta
                 this.classList.add("correct");
@@ -207,15 +187,12 @@ function addClickEvents() {
 
 // Função para exibir o ranking
 async function displayRanking() {
-    console.log('Exibindo ranking');
     if (supabaseData) {
         // Ordena os dados pelo score em ordem decrescente
         const sortedData = supabaseData.sort((a, b) => b.ranking.score - a.ranking.score);
-        console.log('Dados ordenados:', sortedData);
 
         // Pega os top 3
         const top3 = sortedData.slice(0, 3);
-        console.log('Top 3:', top3);
 
         // Cria a estrutura HTML para exibir o ranking
         const rankingContainer = document.getElementById('rankingContainer');
