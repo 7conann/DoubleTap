@@ -44,7 +44,10 @@ h1 {
     font-size: 18px;
     font-weight: bold;
 }
-
+.timer {
+    font-weight: bold;
+    background: linear-gradient(to right, #FAA101, #D06400); /* Gradiente linear de FAA101 para D06400 */
+}
 .game {
     display: flex;
     justify-content: space-between;

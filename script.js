@@ -256,11 +256,11 @@ async function displayRanking() {
 function startTimer() {
     const timerInterval = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").textContent = `Tempo: ${timeLeft}s`;
+        document.getElementById("timer").innerHTML = `Tempo: <strong>${timeLeft}s</strong>`;
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            document.getElementById("timer").textContent = `Tempo: 0s`;
+            document.getElementById("timer").innerHTML = `Tempo: <strong>0s</strong>`;
             // Verifica se o ID do usuário existe no Supabase
             if (currentUser) {
                 const userExists = supabaseData.some(user => user.id === currentUser.id);
