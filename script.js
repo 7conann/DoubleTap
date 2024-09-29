@@ -157,6 +157,7 @@ function loadWords() {
 }
 
 // Função para gerenciar os cliques e correspondência de termos e explicações
+// Função para gerenciar os cliques e correspondência de termos e explicações
 function addClickEvents() {
     console.log('Adicionando eventos de clique');
     const termButtons = document.querySelectorAll(".term-button");
@@ -167,7 +168,7 @@ function addClickEvents() {
             console.log('Termo clicado:', this.textContent);
             if (!selectedTerm) {
                 selectedTerm = this;
-                this.style.backgroundColor = "#FFD700"; // Destaca o termo selecionado
+                this.classList.add("selected"); // Adiciona a classe selecionada
             }
         });
     });
@@ -199,7 +200,7 @@ function addClickEvents() {
                 setTimeout(() => {
                     selectedTerm.classList.remove("wrong");
                     this.classList.remove("wrong");
-                    selectedTerm.style.backgroundColor = "#2c2c2e"; // Reseta o fundo para o original
+                    selectedTerm.classList.remove("selected"); // Remove a classe selecionada
                     selectedTerm = null;
                 }, 500);
             }
