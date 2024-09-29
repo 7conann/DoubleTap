@@ -46,7 +46,7 @@ h1 {
     font-size: 18px;
     font-weight: bolder;
 }
-.timer {
+.timer, #timer {
     font-weight: bolder;
     color: #FAA101 /* Gradiente linear de FAA101 para D06400 */
 }
