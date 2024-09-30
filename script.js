@@ -96,10 +96,10 @@ function loadWords() {
     }
 
     const filteredPerguntas = perguntasData.filter(pergunta => pergunta.modulo === userModule);
-
+    console.log('Perguntas filtradas:', filteredPerguntas);
     if (filteredPerguntas.length > 0) {
         const perguntasString = filteredPerguntas[0].perguntas;
-
+        console.log('Perguntas:', perguntasString);
         try {
             // Corrige a string JSON para garantir que seja um array de objetos
             const formattedString = `[${perguntasString.replace(/}\s*,\s*{/g, '},{').replace(/(\w+):/g, '"$1":')}]`;
